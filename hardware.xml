@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<hardware>
+
+	<!-- Sleep modes disabled -->
+	<sleep enabled="false"/>
+
+	<!-- UART enabled @1000000bps -->
+	<uart baud="115200" flowcontrol="true" bgapi="false" />
+	
+</hardware>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Project configuration including BT121 device type -->
+<project device="bt121">
+
+	<!-- XML file containing GATT service and characteristic definitions both for BLE and GATT over BR -->
+	<gatt in="gatt.xml" out="gatt_db.c" />
+    
+	<!-- Local hardware interfaces configuration file -->
+    <hardware in="hardware.xml" />
+
+	<!-- BGScript source code file -->
+	<scripting>
+        <script in="firmware-BT121.bgs" />
+    </scripting>
+
+    <!-- Firmware output files -->
+    <image out="firmware-BT121.bin" />
+
+</project>

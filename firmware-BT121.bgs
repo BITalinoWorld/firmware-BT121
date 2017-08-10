@@ -1,0 +1,56 @@
+#variable definitions
+dim r
+
+# System initialized event listener - Generated when the module is ready to be used
+event system_initialized(addr)
+	r = 0
+	# Start Bluetooth LE advertisements and enable connections
+	while (r = 0)
+		call le_gap_set_mode(le_gap_general_discoverable,le_gap_undirected_connectable)(r)
+	end while
+end
+
+event le_connection_opened(address,address_type,master,connection,bonding)
+	#Interval: 7.5ms to 30ms  Latency: 0ms  Timeout: 2s
+	call le_connection_set_parameters(connection, 6, 24, 0, 200)
+	# or
+	#call le_gap_set_conn_parameters(6, 24, 0, 200)
+	
+	# connected = 1
+end
+
+event gatt_server_user_write_request(connection,characteristic,att_opcode,offset,value_len,value_data)
+
+	if (att_opcode = gatt_write_request)
+	
+		call gatt_server_send_user_write_response(connection, characteristic, 0)
+		
+		if (characteristic = xgatt_commands)
+		
+			call endpoint_send(0,value_len,value_data(0:value_len))	
+			
+		end if
+		
+	end if
+	
+end
+
+# This event indicates incoming data from an endpoint.
+event endpoint_data(endpoint,data_len,data_data)
+	# Send indication to all "listening" clients 
+	# 0xFF as connection ID will send indications to all connections
+	# if (endpoint = 0 && connected = 1)
+	call gatt_server_send_characteristic_notification($ff, xgatt_frames,data_len,data_data(0:data_len))
+	# end if
+end
+
+# BLE disconnect event listener
+event le_connection_closed(reason,connection)
+	call endpoint_send(0,1,"\xFF")	
+	
+	# BLE connection closed, restart advertisement
+	r = 0
+	while (r = 0)
+		call le_gap_set_mode(2,2)(r)
+	end while
+end

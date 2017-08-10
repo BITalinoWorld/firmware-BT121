@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<gatt>
+
+	<!-- Generic Access Service -->
+	<!-- https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.generic_access.xml -->    
+    <service uuid="1800" id="generic_access">
+      <description>Generic Access</description>
+
+	  <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.device_name.xml -->
+      <characteristic uuid="2A00">
+		<description>Device Name</description>
+        <properties read="true" const="true" />
+        <value>BiTalino BLE</value>
+      </characteristic>
+
+<!-- 	<characteristic uuid="2A00"  id="xgatt_name">
+		<description>Device Name</description>
+        <properties read="true"/>
+        <value length="20" variable_length="true" />
+    </characteristic> -->
+	  
+	  <!-- https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.appearance.xml -->
+      <characteristic uuid="2A01">
+		<description>Appearance</description>
+        <properties read="true" const="true" />
+        <value type="hex">4142</value>
+      </characteristic>
+    </service>
+	
+		<!-- Device Information Service -->
+	<!-- https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.device_information.xml -->
+	<service uuid="180A" advertise="true">
+		<description>Device Information</description>
+		
+        <characteristic uuid="2A29">
+            <properties read="true" const="true" />
+            <value>Plux</value>
+			<description>Plux</description>
+        </characteristic>
+		
+		<characteristic uuid="2A26">
+            <properties read="true" const="true" />
+            <value>Firmware v1.0</value>
+			<description>Firmware v1.0</description>
+        </characteristic>
+		
+		<characteristic uuid="2A27">
+            <properties read="true" const="true" />
+            <value>PCB v1.0</value>
+			<description>PCB v1.0</description>
+        </characteristic>	
+    </service>
+	
+<!-- 	<service uuid="1804" advertise="true">
+		<description>Tx Power Level</description>
+
+		<characteristic uuid="2a07" id="xgatt_txpower">
+			<properties read="true" />
+			<value type="hex">0000000000</value>
+		</characteristic>
+
+	</service> -->
+	
+	<service uuid="c566488a-0882-4e1b-a6d0-0b717e652234" advertise="true">
+        <description>Exchange Data Service</description>
+        
+        <characteristic uuid="4051eb11-bf0a-4c74-8730-a48f4193fcea" id="xgatt_commands">
+            <description>Commands</description>
+            <properties write="true" read="true" indicate="true" />
+            <value variable_length="true" length="20" type="user" />
+        </characteristic>
+		
+		<characteristic uuid="40fdba6b-672e-47c4-808a-e529adff3633" id="xgatt_frames">
+            <description>Frames</description>
+			<properties read="true" notify="true" />
+            <value variable_length="true" length="20" type="user" />
+        </characteristic>
+    </service>
+
+</gatt>
